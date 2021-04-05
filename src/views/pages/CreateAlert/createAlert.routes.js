@@ -1,20 +1,22 @@
-import { Palette, AlertBox, Buttons } from ".";
+import AlertBox from "./AlertBox";
+import Buttons from "./Buttons";
+import Palette from "./Palette";
 
 const routes = [
   {
-    path: "/palette",
+    path: "/create/palette",
     component: Palette,
     label: "Palette",
     exact: true,
   },
   {
-    path: "/alert-box",
+    path: "/create/alert-box",
     component: AlertBox,
     label: "Alert Box",
     exact: true,
   },
   {
-    path: "/buttons",
+    path: "/create/buttons",
     component: Buttons,
     label: "Buttons",
     exact: true,

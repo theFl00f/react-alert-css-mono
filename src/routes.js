@@ -8,7 +8,7 @@ const routes = [
     exact: true,
   },
   {
-    path: "/",
+    path: "/create",
     component: CreateAlert,
     label: "Create Alert",
   },
