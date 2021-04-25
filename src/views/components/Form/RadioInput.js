@@ -1,3 +1,8 @@
-export const RadioInput = ({ args }) => {
-  return <input type="radio" {...args} />;
+export const RadioInput = ({ label, ...args }) => {
+  return (
+    <label>
+      {label}
+      <input type="radio" {...args} />
+    </label>
+  );
 };

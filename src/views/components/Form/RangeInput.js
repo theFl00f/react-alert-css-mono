@@ -1,5 +1,10 @@
 import React from "react";
 
-export const RangeInput = ({ args }) => {
-  return <input type="range" {...args} />;
+export const RangeInput = ({ label, ...args }) => {
+  return (
+    <label>
+      {label}
+      <input type="range" {...args} />
+    </label>
+  );
 };

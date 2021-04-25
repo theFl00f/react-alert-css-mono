@@ -1,4 +1,9 @@
 import React from "react";
-export const Input = ({ args }) => {
-  return <input type="text" {...args} />;
+export const Input = ({ label, ...args }) => {
+  return (
+    <label>
+      {label}
+      <input type="text" {...args} />
+    </label>
+  );
 };
