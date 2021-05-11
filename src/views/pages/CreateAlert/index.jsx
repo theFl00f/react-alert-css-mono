@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { CreateAlertLayout } from "../../layouts/CreateAlertLayout";
-import routes from "./createAlert.routes";
+import routes from "../../../routes/createAlert.routes";
 
 const CreateAlert = () => {
   return (

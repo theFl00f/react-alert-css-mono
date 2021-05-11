@@ -1,10 +1,11 @@
+import React from "react";
 import { NavLink } from "react-router-dom";
-import routes from "./createAlert.routes";
+import routes from "../../routes/routes";
 
-export const CreateAlertNav = () => {
+export const Nav = () => {
   return (
     <nav>
-      <ul>
+      <ul className="flex">
         {routes.map(({ path, label }) => (
           <li key={label}>
             <NavLink to={path}>{label}</NavLink>

@@ -1,6 +1,5 @@
-import AlertBox from "./AlertBox";
-import Buttons from "./Buttons";
-import Palette from "./Palette";
+import AlertBox from "../views/pages/CreateAlert/AlertBox";
+import Palette from "../views/pages/CreateAlert/Palette";
 
 const routes = [
   {
@@ -13,12 +12,6 @@ const routes = [
     path: "/create/alert-box",
     component: AlertBox,
     label: "Alert Box",
-    exact: true,
-  },
-  {
-    path: "/create/buttons",
-    component: Buttons,
-    label: "Buttons",
     exact: true,
   },
 ];

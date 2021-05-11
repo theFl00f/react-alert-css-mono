@@ -1,11 +1,17 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router";
 import { Form } from "../Form";
 import { RadioInput } from "../Form/RadioInput";
-import tinycolor from "tinycolor2";
 import { TinyColor } from "../TinyColor";
 
 export const PaletteForm = () => {
-  const [paletteSelection, setPaletteSelection] = useState("analogous");
+  const history = useHistory();
+
+  const params = new URLSearchParams(history.location.search);
+
+  const themeSelection = params.get("theme") || "analogous";
+
+  const [paletteSelection, setPaletteSelection] = useState(themeSelection);
 
   const colorOptions = [
     {
@@ -13,7 +19,6 @@ export const PaletteForm = () => {
       value: "analogous",
       id: "analogous",
       name: "colorSelection",
-      defaultChecked: true,
     },
     {
       label: "Monochromatic",
@@ -35,20 +40,28 @@ export const PaletteForm = () => {
     },
   ];
 
-  tinycolor.random();
-
   const handleChange = (event) => {
-    return setPaletteSelection(event.target.value);
+    const newTheme = event.target.value;
+    const prevTheme = params.get("theme");
+    params.set("theme", newTheme);
+    if (prevTheme !== newTheme) {
+      history.push(`?${newTheme}`);
+    }
+    return setPaletteSelection(newTheme);
   };
 
   return (
     <Form>
       <div onChange={handleChange}>
         {colorOptions.map((color, index) => (
-          <RadioInput {...color} key={index} />
+          <RadioInput
+            {...color}
+            key={index}
+            defaultChecked={color.value === paletteSelection}
+          />
         ))}
       </div>
-      <div>
+      <div className="grid grid-cols-3 md:grid-cols-6 place-items-center">
         <TinyColor input={paletteSelection} />
       </div>
     </Form>

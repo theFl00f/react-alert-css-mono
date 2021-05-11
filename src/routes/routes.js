@@ -1,4 +1,4 @@
-import { CreateAlert, UserAlerts } from "./views/pages";
+import { CreateAlert, UserAlerts } from "../views/pages/";
 
 const routes = [
   {
