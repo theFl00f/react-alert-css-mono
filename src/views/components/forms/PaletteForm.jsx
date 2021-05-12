@@ -11,8 +11,6 @@ export const PaletteForm = () => {
 
   const themeSelection = params.get("theme") || "analogous";
 
-  const [paletteSelection, setPaletteSelection] = useState(themeSelection);
-
   const colorOptions = [
     {
       label: "Analogous",
@@ -43,11 +41,10 @@ export const PaletteForm = () => {
   const handleChange = (event) => {
     const newTheme = event.target.value;
     const prevTheme = params.get("theme");
-    params.set("theme", newTheme);
     if (prevTheme !== newTheme) {
-      history.push(`?${newTheme}`);
+      params.set("theme", newTheme);
+      history.push(`?${params.toString()}`);
     }
-    return setPaletteSelection(newTheme);
   };
 
   return (
@@ -57,12 +54,12 @@ export const PaletteForm = () => {
           <RadioInput
             {...color}
             key={index}
-            defaultChecked={color.value === paletteSelection}
+            defaultChecked={color.value === themeSelection}
           />
         ))}
       </div>
       <div className="grid grid-cols-3 md:grid-cols-6 place-items-center">
-        <TinyColor input={paletteSelection} />
+        <TinyColor />
       </div>
     </Form>
   );

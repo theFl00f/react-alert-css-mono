@@ -1,12 +1,21 @@
-import { Fragment, useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import tinycolor from "tinycolor2";
 import { useHistory } from "react-router-dom";
 import { ColorInput } from "./Form/ColorInput";
 
-export const TinyColor = ({ input }) => {
-  const [selectedColors, setSelectedColors] = useState([]);
-  const [generatedTheme, setGeneratedTheme] = useState(input);
+export const TinyColor = () => {
   const history = useHistory();
+  const searchParams = useMemo(
+    () => new URLSearchParams(history.location.search),
+    [history.location.search]
+  );
+
+  const themeSelection = searchParams.get("theme");
+  const [selectedColors, setSelectedColors] = useState([]);
+  const [generatedTheme, setGeneratedTheme] = useState(
+    themeSelection || "analogous"
+  );
+
   const [hasSetColors, setHasSetColors] = useState(false);
 
   const randomColor = () => {
@@ -56,49 +65,68 @@ export const TinyColor = ({ input }) => {
   };
 
   useEffect(() => {
-    console.log({ generatedTheme });
-    console.log({ input });
-    if (generatedTheme !== input) {
-      setSelectedColors(generatePalette(input));
-    }
+    setSelectedColors(generatePalette(generatedTheme));
     return setHasSetColors(false);
-  }, [generatePalette, generatedTheme, input]);
+  }, [generatePalette, generatedTheme]);
+
+  useEffect(() => {
+    setGeneratedTheme(themeSelection);
+  }, [themeSelection]);
 
   useEffect(() => {
     if (hasSetColors && !selectedColors.length) {
-      setSelectedColors(generatePalette(input));
+      setSelectedColors(generatePalette(generatedTheme));
     }
     return;
-  }, [selectedColors, generatePalette, input, hasSetColors]);
+  }, [selectedColors, generatePalette, generatedTheme, hasSetColors]);
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(history.location.search);
     const colors = searchParams.get("colors");
     const theme = searchParams.get("theme");
-    if (colors && !hasSetColors && theme !== generatedTheme) {
-      setHasSetColors(true);
-      const colorHex = colors.split("-").map((color) => `#${color}`);
-      console.log({ colorHex });
-      setSelectedColors(colorHex);
+    if (!colors && !theme) {
+      setSelectedColors(generatePalette(generatedTheme));
     }
-  }, [generatedTheme, hasSetColors, history.location.search]);
+
+    const splitColors = (colors) => {
+      return colors.split("-").map((color) => `#${color}`);
+    };
+
+    if (colors && !hasSetColors && theme !== generatedTheme) {
+      const colorHex = splitColors(colors);
+      setSelectedColors(colorHex);
+      setHasSetColors(true);
+    }
+
+    if (splitColors(colors) !== selectedColors) {
+      console.log("hello");
+    }
+  }, [
+    generatePalette,
+    generatedTheme,
+    hasSetColors,
+    history.location.search,
+    searchParams,
+  ]);
 
   useEffect(() => {
     if (selectedColors && selectedColors.length) {
       const string = selectedColors.map((color) => color.slice(1)).join("-");
       if (string) {
-        const params = new URLSearchParams({ theme: input, colors: string });
+        const params = new URLSearchParams({
+          theme: generatedTheme,
+          colors: string,
+        });
         const prevParams = new URLSearchParams(history.location.search);
         if (params.get("colors") !== prevParams.get("colors")) {
-          history.push(`?${params}`);
+          history.push(`?${params.toString()}`);
         }
       }
     }
-  }, [selectedColors, history, input]);
+  }, [selectedColors, history, generatedTheme]);
 
   const handleClick = (e) => {
     e.preventDefault();
-    return setSelectedColors(generatePalette(input));
+    return setSelectedColors(generatePalette(generatedTheme));
   };
 
   return (
