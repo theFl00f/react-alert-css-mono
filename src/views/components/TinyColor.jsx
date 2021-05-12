@@ -2,6 +2,7 @@ import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import tinycolor from "tinycolor2";
 import { useHistory } from "react-router-dom";
 import { ColorInput } from "./Form/ColorInput";
+import { joinColors, splitColors } from "../../util/colorUtil";
 
 export const TinyColor = () => {
   const history = useHistory();
@@ -11,6 +12,7 @@ export const TinyColor = () => {
   );
 
   const themeSelection = searchParams.get("theme");
+
   const [selectedColors, setSelectedColors] = useState([]);
   const [generatedTheme, setGeneratedTheme] = useState(
     themeSelection || "analogous"
@@ -21,6 +23,7 @@ export const TinyColor = () => {
   const randomColor = () => {
     return tinycolor.random();
   };
+
   const generatePalette = useCallback((paletteType) => {
     let color;
     switch (paletteType) {
@@ -67,9 +70,10 @@ export const TinyColor = () => {
   useEffect(() => {
     setSelectedColors(generatePalette(generatedTheme));
     return setHasSetColors(false);
-  }, [generatePalette, generatedTheme]);
+  }, [generatedTheme]);
 
   useEffect(() => {
+    //update theme on theme selection change
     setGeneratedTheme(themeSelection);
   }, [themeSelection]);
 
@@ -84,21 +88,12 @@ export const TinyColor = () => {
     const colors = searchParams.get("colors");
     const theme = searchParams.get("theme");
     if (!colors && !theme) {
-      setSelectedColors(generatePalette(generatedTheme));
+      return setSelectedColors(generatePalette(generatedTheme));
     }
-
-    const splitColors = (colors) => {
-      return colors.split("-").map((color) => `#${color}`);
-    };
-
     if (colors && !hasSetColors && theme !== generatedTheme) {
       const colorHex = splitColors(colors);
       setSelectedColors(colorHex);
-      setHasSetColors(true);
-    }
-
-    if (splitColors(colors) !== selectedColors) {
-      console.log("hello");
+      return setHasSetColors(true);
     }
   }, [
     generatePalette,
@@ -106,11 +101,12 @@ export const TinyColor = () => {
     hasSetColors,
     history.location.search,
     searchParams,
+    selectedColors,
   ]);
 
   useEffect(() => {
     if (selectedColors && selectedColors.length) {
-      const string = selectedColors.map((color) => color.slice(1)).join("-");
+      const string = joinColors(selectedColors);
       if (string) {
         const params = new URLSearchParams({
           theme: generatedTheme,
@@ -131,13 +127,14 @@ export const TinyColor = () => {
 
   return (
     <>
-      {selectedColors.map((color, index) => {
-        return (
-          <Fragment key={index}>
-            <ColorInput value={color} onChange={handlePaletteChange} />
-          </Fragment>
-        );
-      })}
+      {selectedColors &&
+        selectedColors.map((color, index) => {
+          return (
+            <Fragment key={index}>
+              <ColorInput value={color} onChange={handlePaletteChange} />
+            </Fragment>
+          );
+        })}
       <div className="col-span-3 md:col-span-6 flex items-center justify-center">
         <button onClick={handleClick}>generate</button>
       </div>

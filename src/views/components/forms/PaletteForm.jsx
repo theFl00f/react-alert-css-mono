@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router";
 import { Form } from "../Form";
 import { RadioInput } from "../Form/RadioInput";
@@ -41,6 +41,7 @@ export const PaletteForm = () => {
   const handleChange = (event) => {
     const newTheme = event.target.value;
     const prevTheme = params.get("theme");
+
     if (prevTheme !== newTheme) {
       params.set("theme", newTheme);
       history.push(`?${params.toString()}`);

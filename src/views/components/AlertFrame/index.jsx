@@ -7,9 +7,13 @@ export const AlertFrame = () => {
   const textColor = useColorDrop("#ffffff");
   const buttonTextColor = useColorDrop("#ffffff");
   const layoutClasses = "flex flex-col items-start";
+  console.log(textColor, buttonTextColor);
   return (
     <div className="bg-purple-200 py-4 gap-x-8 flex justify-center">
-      <AlertBackgroundBorder />
+      <AlertBackgroundBorder
+        textColor={textColor.color}
+        buttonTextColor={buttonTextColor.color}
+      />
       <article className={layoutClasses}>
         <div className={layoutClasses}>
           <p>Text color</p>
