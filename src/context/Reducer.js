@@ -30,6 +30,16 @@ const Reducer = (state, action) => {
         ...state,
         buttonTextColor: action.payload,
       };
+    case "SET_MESSAGE":
+      return {
+        ...state,
+        message: action.payload,
+      };
+    case "SET_BUTTON_TEXT":
+      return {
+        ...state,
+        buttonText: action.payload,
+      };
     case "SET_ERROR":
       return {
         ...state,

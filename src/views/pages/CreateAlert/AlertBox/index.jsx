@@ -1,10 +1,44 @@
 import React, { useContext } from "react";
+import { alertDao } from "../../../../context/persistentContext";
 import { Context } from "../../../../context/Store";
-import { CustomModal } from "../../../components/CustomModal";
+import { Modal } from "../../../components/Modal";
 import { SelectedPalette } from "../../../components/SelectedPalette";
+import { ExportedCodeBlock } from "./ExportedCodeBlock";
 
 const AlertBox = () => {
   const [state] = useContext(Context);
+
+  const fetchAlerts = async () => {
+    try {
+      const alerts = await alertDao.getAlerts();
+      console.log(alerts);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const addAlert = async ({
+    alertBorderColor,
+    alertBackgroundColor,
+    buttonBorderColor,
+    buttonBackgroundColor,
+    textColor,
+    buttonTextColor,
+  }) => {
+    try {
+      const newAlert = await alertDao.addAlert({
+        alertBorderColor,
+        alertBackgroundColor,
+        buttonBorderColor,
+        buttonBackgroundColor,
+        textColor,
+        buttonTextColor,
+      });
+      console.log(newAlert);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const handlePublish = () => {
     //send state to DB
@@ -12,31 +46,26 @@ const AlertBox = () => {
     if (state.error) {
       throw state.error;
     }
+    addAlert(state);
+    fetchAlerts();
   };
 
   return (
     <div className="flex justify-between">
       <SelectedPalette />
-      <CustomModal
-        handlePublish={handlePublish}
-        openButtonText="Export to code"
-      >
-        <article>
-          <h2>HTML</h2>
-          <pre>
-            <code>
-              {`<div className="react-alert">
-  meow
-  <button>meow</button>
-</div>`}
-            </code>
-          </pre>
-        </article>
-        <article>
-          <h2>CSS</h2>
-          <pre>
-            <code>
-              {`.react-alert {
+      <Modal handlePublish={handlePublish} openButtonText="Export to code">
+        <div className="grid grid-cols-2">
+          <ExportedCodeBlock
+            title="CSS"
+            code={`html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.4rem;
+}
+              
+.react-alert {
   background-color: ${state.alertBackgroundColor};
   border: 1px solid ${state.alertBorderColor};
   color: ${state.textColor};
@@ -48,10 +77,16 @@ const AlertBox = () => {
   color: ${state.buttonTextColor};
 }
 `}
-            </code>
-          </pre>
-        </article>
-      </CustomModal>
+          />
+          <ExportedCodeBlock
+            title="HTML"
+            code={`<div className="react-alert">
+  <p>meow</p>
+  <button>meow</button>
+</div>`}
+          />
+        </div>
+      </Modal>
     </div>
   );
 };

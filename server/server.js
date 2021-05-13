@@ -1,23 +1,23 @@
 require("dotenv").config();
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
 
-var alertsRouter = require("./routes/alerts");
+const alertsRouter = require("./routes/alerts");
 
-var app = express();
+const app = express();
 
 //mongoose setup
 
-var Mongoose = require("mongoose");
+const Mongoose = require("mongoose");
 
 if (!process.env.MONGO_URL) {
   throw new Error("No MONGO_URL env variable was provided");
 }
 
-var url = process.env.MONGO_URL;
+const url = process.env.MONGO_URL;
 
 const connectToMongoose = async () => {
   try {
@@ -32,7 +32,7 @@ const connectToMongoose = async () => {
 
 connectToMongoose();
 
-var db = Mongoose.connection;
+const db = Mongoose.connection;
 
 db.once("open", (_) => {
   console.log("database connected: ", url);
@@ -41,9 +41,6 @@ db.once("open", (_) => {
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
-
-//**current way I can render the file
-// app.engine('html', require('ejs').renderFile)
 
 app.use(logger("dev"));
 app.use(express.json());

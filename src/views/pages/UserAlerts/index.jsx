@@ -1,7 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { alertDao } from "../../../context/persistentContext";
+import { UserAlert } from "../../components/UserAlert";
+import { Wrapper } from "../../components/Wrapper";
 
 const UserAlerts = () => {
-  return <div>meow UserAlerts</div>;
+  const [alerts, setAlerts] = useState([]);
+
+  const getAlerts = async () => {
+    const response = await alertDao.getAlerts();
+    setAlerts(response.data);
+  };
+
+  useEffect(() => {
+    getAlerts();
+  }, []);
+
+  return (
+    <div className="bg-indigo-200 py-10">
+      <Wrapper>
+        {alerts.map((alert) => (
+          <UserAlert key={alert._id} {...alert} />
+        ))}
+      </Wrapper>
+    </div>
+  );
 };
 
 export default UserAlerts;

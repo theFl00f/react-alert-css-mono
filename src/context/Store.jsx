@@ -8,6 +8,8 @@ const initialState = {
   buttonBackgroundColor: "",
   textColor: "",
   buttonTextColor: "",
+  message: null,
+  buttonText: "Close",
   error: null,
 };
 

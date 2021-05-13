@@ -1,55 +1,48 @@
-var express = require("express");
-var router = express.Router();
-var Mongoose = require("mongoose");
-var Schema = Mongoose.Schema;
+const express = require("express");
+const Mongoose = require("mongoose");
+const router = express.Router();
+const Schema = Mongoose.Schema;
 
-var AlertSchema = new Schema(
+const AlertSchema = new Schema(
   {
     user: String,
-    alertname: String,
-    alerthtml: {
+    alertName: String,
+    textValues: {
+      message: String,
       button: String,
-      alertBox: String,
-      alertMessage: String,
-      complete: String,
     },
-    alertcss: {
-      button: String,
-      alertBox: String,
-      alertMessage: Object,
-      complete: String,
+    css: {
+      alertBorderColor: String,
+      alertBackgroundColor: String,
+      buttonBorderColor: String,
+      buttonBackgroundColor: String,
+      textColor: String,
+      buttonTextColor: String,
     },
   },
   { timestamps: { createdAt: "created_at" } }
 );
 
-var AlertModel = Mongoose.model("alert", AlertSchema);
+const AlertModel = Mongoose.model("alert", AlertSchema);
 
-async function getAlerts(req, res, next) {
+// **GET alerts listing.
+router.get("/api/alerts", async (req, res, next) => {
   try {
     var result = await AlertModel.find().exec();
     res.send(result);
-    next();
   } catch (err) {
+    console.log(err);
     res.status(500).send(err);
   }
-}
-
-// **GET alerts listing.
-router.get("/api/alerts", getAlerts);
-
-// **GET alerts html
-router.get("/alerts.html", getAlerts, function (req, res) {
-  res.render("alerts.html");
 });
 
 router.get("/alert/:id", async function (req, res) {
   try {
-    console.log(req.params.id);
     var result = await AlertModel.findById(req.params.id).exec();
     res.send(result);
   } catch (err) {
     console.log(err);
+    res.status(500).send(err);
   }
 });
 
@@ -61,6 +54,7 @@ router.post("/api/alert", async function (req, res) {
     var result = await alert.save();
     res.send(result);
   } catch (err) {
+    console.log(err);
     res.status(500).send(err);
   }
 });
