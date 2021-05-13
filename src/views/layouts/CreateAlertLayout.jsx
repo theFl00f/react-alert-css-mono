@@ -1,4 +1,3 @@
-import { AlertFrame } from "../components/AlertFrame";
 import { Wrapper } from "../components/Wrapper";
 import { CreateAlertNav } from "../pages/CreateAlert/CreateAlertNav";
 
@@ -7,9 +6,8 @@ export const CreateAlertLayout = ({ children }) => {
     <div>
       <Wrapper>
         <CreateAlertNav />
+        {children}
       </Wrapper>
-      <AlertFrame />
-      <Wrapper>{children}</Wrapper>
     </div>
   );
 };

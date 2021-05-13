@@ -9,9 +9,9 @@ const routes = [
     exact: true,
   },
   {
-    path: "/create/alert-box",
+    path: "/create/edit-alert",
     component: AlertBox,
-    label: "Alert Box",
+    label: "Edit Alert",
     exact: true,
   },
 ];

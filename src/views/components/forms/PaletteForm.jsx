@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 import { Form } from "../Form";
 import { RadioInput } from "../Form/RadioInput";
 import { TinyColor } from "../TinyColor";
@@ -49,7 +50,7 @@ export const PaletteForm = () => {
   };
 
   return (
-    <Form>
+    <Form className="py-4 flex flex-col gap-6">
       <div onChange={handleChange}>
         {colorOptions.map((color, index) => (
           <RadioInput
@@ -62,6 +63,7 @@ export const PaletteForm = () => {
       <div className="grid grid-cols-3 md:grid-cols-6 place-items-center">
         <TinyColor />
       </div>
+      <Link to={`/create/edit-alert${history.location.search}`}>Next</Link>
     </Form>
   );
 };

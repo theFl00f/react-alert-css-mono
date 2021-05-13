@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../../../../context/Store";
+import { InlineEdit } from "../../InlineEdit";
 import { useColorDrop } from "../../ReactDnD/useColorDrop";
 import { AlertButtonBorder } from "../AlertButton/AlertButtonBorder";
-import EditableLabel from "react-inline-editing";
 
 export const AlertBackground = () => {
   const [state, dispatch] = useContext(Context);
@@ -23,11 +23,7 @@ export const AlertBackground = () => {
       ref={drop}
     >
       <div style={{ color: state.textColor }}>
-        <EditableLabel
-          text={state.message || "Click to edit"}
-          onFocusOut={saveText}
-          inputClassName="bg-transparent border border-indigo-300 border-solid max-w-full px-1"
-        />
+        <InlineEdit text={state.message} saveText={saveText} />
       </div>
       <AlertButtonBorder />
     </div>

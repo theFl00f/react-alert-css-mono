@@ -1,5 +1,9 @@
 import React from "react";
 
-export const Form = ({ args, children }) => {
-  return <form {...args}>{children}</form>;
+export const Form = ({ args, className, children }) => {
+  return (
+    <form className={className || ""} {...args}>
+      {children}
+    </form>
+  );
 };

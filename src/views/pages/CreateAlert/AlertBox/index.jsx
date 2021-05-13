@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { alertDao } from "../../../../context/persistentContext";
 import { Context } from "../../../../context/Store";
+import { AlertFrame } from "../../../components/AlertFrame";
 import { Modal } from "../../../components/Modal";
 import { SelectedPalette } from "../../../components/SelectedPalette";
 import { ExportedCodeBlock } from "./ExportedCodeBlock";
@@ -24,6 +25,8 @@ const AlertBox = () => {
     buttonBackgroundColor,
     textColor,
     buttonTextColor,
+    message,
+    buttonText,
   }) => {
     try {
       const newAlert = await alertDao.addAlert({
@@ -33,6 +36,8 @@ const AlertBox = () => {
         buttonBackgroundColor,
         textColor,
         buttonTextColor,
+        message,
+        buttonText,
       });
       console.log(newAlert);
     } catch (e) {
@@ -51,13 +56,15 @@ const AlertBox = () => {
   };
 
   return (
-    <div className="flex justify-between">
-      <SelectedPalette />
-      <Modal handlePublish={handlePublish} openButtonText="Export to code">
-        <div className="grid grid-cols-2">
-          <ExportedCodeBlock
-            title="CSS"
-            code={`html {
+    <>
+      <AlertFrame />
+      <div className="flex justify-between">
+        <SelectedPalette />
+        <Modal handlePublish={handlePublish} openButtonText="Export to code">
+          <div className="grid grid-cols-2">
+            <ExportedCodeBlock
+              title="CSS"
+              code={`html {
   font-size: 62.5%;
 }
 
@@ -67,8 +74,11 @@ body {
               
 .react-alert {
   background-color: ${state.alertBackgroundColor};
-  border: 1px solid ${state.alertBorderColor};
-  color: ${state.textColor};
+  border: 1px solid ${state.alertBorderColor};${
+                state.message &&
+                `
+  color: ${state.textColor};`
+              }
 }
 
 .react-alert button {
@@ -77,17 +87,21 @@ body {
   color: ${state.buttonTextColor};
 }
 `}
-          />
-          <ExportedCodeBlock
-            title="HTML"
-            code={`<div className="react-alert">
-  <p>meow</p>
-  <button>meow</button>
+            />
+            <ExportedCodeBlock
+              title="HTML"
+              code={`<div className="react-alert">${
+                state.message &&
+                `
+  <p>${state.message}</p>`
+              }
+  <button>${state.buttonText}</button>
 </div>`}
-          />
-        </div>
-      </Modal>
-    </div>
+            />
+          </div>
+        </Modal>
+      </div>
+    </>
   );
 };
 

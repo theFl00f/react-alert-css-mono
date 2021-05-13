@@ -8,13 +8,15 @@ export default class AlertDao {
     buttonBackgroundColor,
     textColor,
     buttonTextColor,
+    message,
+    buttonText,
   }) {
     return axios.post("/api/alert", {
       user: "Anonymous",
       alertName: "Untitled",
       textValues: {
-        message: "Hello",
-        button: "Okay",
+        message,
+        button: buttonText,
       },
       css: {
         alertBorderColor,

@@ -18,9 +18,11 @@ const UserAlerts = () => {
   return (
     <div className="bg-indigo-200 py-10">
       <Wrapper>
-        {alerts.map((alert) => (
-          <UserAlert key={alert._id} {...alert} />
-        ))}
+        <section className="grid grid-cols-3 gap-6">
+          {alerts.map((alert) => (
+            <UserAlert key={alert._id} {...alert} />
+          ))}
+        </section>
       </Wrapper>
     </div>
   );
