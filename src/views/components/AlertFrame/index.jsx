@@ -1,25 +1,34 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { Context } from "../../../context/Store";
 import { ColorSwatch } from "../ColorSwatch";
 import { useColorDrop } from "../ReactDnD/useColorDrop";
 import { AlertBackgroundBorder } from "./AlertBackground/AlertBackgroundBorder";
 
 export const AlertFrame = () => {
+  const [state, dispatch] = useContext(Context);
+
   const textColor = useColorDrop("#ffffff");
   const buttonTextColor = useColorDrop("#ffffff");
+
   const layoutClasses = "flex flex-col items-start";
-  console.log(textColor, buttonTextColor);
+
+  useEffect(() => {
+    dispatch({ type: "SET_TEXT_COLOR", payload: textColor.color });
+  }, [dispatch, textColor.color]);
+
+  useEffect(() => {
+    dispatch({ type: "SET_BUTTON_TEXT_COLOR", payload: buttonTextColor.color });
+  }, [dispatch, buttonTextColor.color]);
+
   return (
     <div className="bg-purple-200 py-4 gap-x-8 flex justify-center">
-      <AlertBackgroundBorder
-        textColor={textColor.color}
-        buttonTextColor={buttonTextColor.color}
-      />
+      <AlertBackgroundBorder />
       <article className={layoutClasses}>
         <div className={layoutClasses}>
           <p>Text color</p>
           <ColorSwatch
             ref={textColor.drop}
-            style={{ backgroundColor: textColor.color }}
+            style={{ backgroundColor: state.textColor }}
           />
         </div>
         <div className={layoutClasses}>
@@ -27,7 +36,7 @@ export const AlertFrame = () => {
 
           <ColorSwatch
             ref={buttonTextColor.drop}
-            style={{ backgroundColor: buttonTextColor.color }}
+            style={{ backgroundColor: state.buttonTextColor }}
           />
         </div>
       </article>

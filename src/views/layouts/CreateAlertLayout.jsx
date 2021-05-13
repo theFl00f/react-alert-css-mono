@@ -1,12 +1,15 @@
 import { AlertFrame } from "../components/AlertFrame";
+import { Wrapper } from "../components/Wrapper";
 import { CreateAlertNav } from "../pages/CreateAlert/CreateAlertNav";
 
 export const CreateAlertLayout = ({ children }) => {
   return (
     <div>
-      <CreateAlertNav />
+      <Wrapper>
+        <CreateAlertNav />
+      </Wrapper>
       <AlertFrame />
-      {children}
+      <Wrapper>{children}</Wrapper>
     </div>
   );
 };
