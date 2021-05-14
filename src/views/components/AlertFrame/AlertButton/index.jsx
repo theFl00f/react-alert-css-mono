@@ -4,7 +4,9 @@ import { useColorDrop } from "../../ReactDnD/useColorDrop";
 
 export const AlertButton = ({ children }) => {
   const [state, dispatch] = useContext(Context);
-  const { isOver, color, drop } = useColorDrop("#1f1f1f");
+  const { isOver, color, drop } = useColorDrop(
+    state.buttonBackgroundColor || "#1f1f1f"
+  );
 
   useEffect(() => {
     dispatch({ type: "SET_BUTTON_BACKGROUND_COLOR", payload: color });

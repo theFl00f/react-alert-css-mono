@@ -7,8 +7,8 @@ import { AlertBackgroundBorder } from "./AlertBackground/AlertBackgroundBorder";
 export const AlertFrame = () => {
   const [state, dispatch] = useContext(Context);
 
-  const textColor = useColorDrop("#ffffff");
-  const buttonTextColor = useColorDrop("#ffffff");
+  const textColor = useColorDrop(state.textColor || "#ffffff");
+  const buttonTextColor = useColorDrop(state.buttonTextColor || "#ffffff");
 
   const layoutClasses = "flex flex-col items-start";
 
