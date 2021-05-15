@@ -2,6 +2,7 @@ import { createContext, useReducer } from "react";
 import Reducer from "./Reducer";
 
 const initialState = {
+  palette: [],
   alertBorderColor: "",
   alertBackgroundColor: "",
   buttonBorderColor: "",
@@ -10,6 +11,10 @@ const initialState = {
   buttonTextColor: "",
   message: "",
   buttonText: "Close",
+  alertWidth: 24,
+  alertHeight: 14,
+  alertBorderRadius: 0,
+  alertBorderWidth: 0,
   error: null,
 };
 

@@ -1,27 +1,47 @@
-import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
+import {
+  Fragment,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import tinycolor from "tinycolor2";
 import { useHistory } from "react-router-dom";
 import { ColorInput } from "./Form/ColorInput";
 import { joinColors, splitColors } from "../../util/colorUtil";
+import { Context } from "../../context/Store";
 
 export const TinyColor = () => {
   const history = useHistory();
+  const [state, dispatch] = useContext(Context);
   const searchParams = useMemo(
     () => new URLSearchParams(history.location.search),
     [history.location.search]
   );
 
-  const themeSelection = searchParams.get("theme");
+  const themeUrl = searchParams.get("theme");
+  const paletteUrl = searchParams.get("colors");
 
-  const [selectedColors, setSelectedColors] = useState([]);
-  const [generatedTheme, setGeneratedTheme] = useState(
-    themeSelection || "analogous"
-  );
-
-  const [hasSetColors, setHasSetColors] = useState(false);
+  const [generatedTheme, setGeneratedTheme] = useState(themeUrl || "analogous");
 
   const randomColor = () => {
     return tinycolor.random();
+  };
+
+  const setPalette = (colors) => {
+    dispatch({ type: "SET_PALETTE", payload: colors });
+
+    const colorParams = joinColors(colors);
+
+    const params = new URLSearchParams({
+      theme: generatedTheme,
+      colors: colorParams,
+    });
+    const prevParams = searchParams;
+    if (params.get("colors") !== prevParams.get("colors")) {
+      history.push(`?${params.toString()}`);
+    }
   };
 
   const generatePalette = useCallback((paletteType) => {
@@ -61,74 +81,41 @@ export const TinyColor = () => {
   const handlePaletteChange = (event) => {
     const newValue = event.target.value;
     const prevValue = event.target.attributes.value.value;
-    const index = selectedColors.indexOf(prevValue);
-    const newColors = [...selectedColors];
+    const index = state.palette.indexOf(prevValue);
+    const newColors = [...state.palette];
     newColors[index] = newValue;
-    return setSelectedColors(newColors);
+    return setPalette(newColors);
   };
-
-  useEffect(() => {
-    setSelectedColors(generatePalette(generatedTheme));
-    return setHasSetColors(false);
-  }, [generatedTheme]);
-
-  useEffect(() => {
-    //update theme on theme selection change
-    setGeneratedTheme(themeSelection);
-  }, [themeSelection]);
-
-  useEffect(() => {
-    if (hasSetColors && !selectedColors.length) {
-      setSelectedColors(generatePalette(generatedTheme));
-    }
-    return;
-  }, [selectedColors, generatePalette, generatedTheme, hasSetColors]);
-
-  useEffect(() => {
-    const colors = searchParams.get("colors");
-    const theme = searchParams.get("theme");
-    if (!colors && !theme) {
-      return setSelectedColors(generatePalette(generatedTheme));
-    }
-    if (colors && !hasSetColors && theme !== generatedTheme) {
-      const colorHex = splitColors(colors);
-      setSelectedColors(colorHex);
-      return setHasSetColors(true);
-    }
-  }, [
-    generatePalette,
-    generatedTheme,
-    hasSetColors,
-    history.location.search,
-    searchParams,
-    selectedColors,
-  ]);
-
-  useEffect(() => {
-    if (selectedColors && selectedColors.length) {
-      const string = joinColors(selectedColors);
-      if (string) {
-        const params = new URLSearchParams({
-          theme: generatedTheme,
-          colors: string,
-        });
-        const prevParams = new URLSearchParams(history.location.search);
-        if (params.get("colors") !== prevParams.get("colors")) {
-          history.push(`?${params.toString()}`);
-        }
-      }
-    }
-  }, [selectedColors, history, generatedTheme]);
 
   const handleClick = (e) => {
     e.preventDefault();
-    return setSelectedColors(generatePalette(generatedTheme));
+    return setPalette(generatePalette(generatedTheme));
   };
+
+  // TODO: debug logic to only generate new palette if not in history or something
+
+  useEffect(() => {
+    //set local generated theme based on url
+    setGeneratedTheme(themeUrl);
+  }, [themeUrl]);
+
+  useEffect(() => {
+    // on theme change, generate and set new palette
+    setPalette(generatePalette(generatedTheme));
+  }, [generatedTheme]);
+
+  useEffect(() => {
+    // on paletteUrl change, set colors from url
+    if (paletteUrl) {
+      const colors = splitColors(paletteUrl);
+      setPalette(colors);
+    }
+  }, [paletteUrl, themeUrl]);
 
   return (
     <>
-      {selectedColors &&
-        selectedColors.map((color, index) => {
+      {state.palette &&
+        state.palette.map((color, index) => {
           return (
             <Fragment key={index}>
               <ColorInput value={color} onChange={handlePaletteChange} />

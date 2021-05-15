@@ -1,5 +1,13 @@
 const Reducer = (state, action) => {
   switch (action.type) {
+    // overall palette selection
+    case "SET_PALETTE":
+      return {
+        ...state,
+        palette: action.payload,
+      };
+
+    // alert colors
     case "SET_ALERT_BORDER_COLOR":
       return {
         ...state,
@@ -30,6 +38,8 @@ const Reducer = (state, action) => {
         ...state,
         buttonTextColor: action.payload,
       };
+
+    // text input
     case "SET_MESSAGE":
       return {
         ...state,
@@ -39,6 +49,29 @@ const Reducer = (state, action) => {
       return {
         ...state,
         buttonText: action.payload,
+      };
+
+    // dimensions
+
+    case "SET_ALERT_WIDTH":
+      return {
+        ...state,
+        alertWidth: action.payload,
+      };
+    case "SET_ALERT_HEIGHT":
+      return {
+        ...state,
+        alertHeight: action.payload,
+      };
+    case "SET_ALERT_BORDER_RADIUS":
+      return {
+        ...state,
+        alertBorderRadius: action.payload,
+      };
+    case "SET_ALERT_BORDER_WIDTH":
+      return {
+        ...state,
+        alertBorderWidth: action.payload,
       };
     case "SET_ERROR":
       return {

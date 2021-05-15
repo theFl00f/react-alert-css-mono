@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../../../context/Store";
 import { InlineEdit } from "../../InlineEdit";
 import { useColorDrop } from "../../ReactDnD/useColorDrop";
@@ -20,8 +20,13 @@ export const AlertBackground = () => {
 
   return (
     <div
-      style={{ backgroundColor: state.alertBackgroundColor }}
-      className="h-44 w-44 p-4 flex flex-col justify-between"
+      style={{
+        backgroundColor: state.alertBackgroundColor,
+        width: `${state.alertWidth}rem`,
+        height: `${state.alertHeight}rem`,
+        borderRadius: `${state.alertBorderRadius}%`,
+      }}
+      className="p-4 flex flex-col justify-between"
       ref={drop}
     >
       <div style={{ color: state.textColor }}>
