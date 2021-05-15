@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { alertDao } from "../../../../context/persistentContext";
 import { Context } from "../../../../context/Store";
 import { AlertFrame } from "../../../components/AlertFrame";
+import { CreateAlertForm } from "../../../components/forms/CreateAlertForm";
 import { Modal } from "../../../components/Modal";
 import { SelectedPalette } from "../../../components/SelectedPalette";
 import { ExportedCodeBlock } from "./ExportedCodeBlock";
@@ -101,6 +102,7 @@ body {
           </div>
         </Modal>
       </div>
+      <CreateAlertForm />
     </>
   );
 };

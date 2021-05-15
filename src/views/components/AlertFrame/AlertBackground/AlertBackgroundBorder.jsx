@@ -16,7 +16,11 @@ export const AlertBackgroundBorder = () => {
   return (
     <div
       className="p-4"
-      style={{ backgroundColor: state.alertBorderColor }}
+      style={{
+        backgroundColor: state.alertBorderColor,
+        padding: `${state.alertBorderWidth}rem`,
+        borderRadius: `${state.alertBorderRadius}%`,
+      }}
       ref={drop}
     >
       <AlertBackground />
