@@ -1,5 +1,7 @@
+import React from "react";
 import { Wrapper } from "../components/Wrapper";
 import { CreateAlertNav } from "../pages/CreateAlert/CreateAlertNav";
+import PropTypes from "prop-types";
 
 export const CreateAlertLayout = ({ children }) => {
   return (
@@ -10,4 +12,8 @@ export const CreateAlertLayout = ({ children }) => {
       </Wrapper>
     </div>
   );
+};
+
+CreateAlertLayout.propTypes = {
+  children: PropTypes.element.isRequired,
 };

@@ -1,20 +1,25 @@
-import {
+import React, {
   Fragment,
   useCallback,
   useContext,
   useEffect,
   useMemo,
-  useState,
+  useRef,
 } from "react";
 import tinycolor from "tinycolor2";
 import { useHistory } from "react-router-dom";
 import { ColorInput } from "./Form/ColorInput";
 import { joinColors, splitColors } from "../../util/colorUtil";
 import { Context } from "../../context/Store";
+import { usePrevious } from "../../util/usePrevious";
 
 export const TinyColor = () => {
   const history = useHistory();
   const [state, dispatch] = useContext(Context);
+
+  const hasSetColorsRef = useRef(false);
+  const prevTheme = usePrevious(state.theme);
+
   const searchParams = useMemo(
     () => new URLSearchParams(history.location.search),
     [history.location.search]
@@ -23,10 +28,20 @@ export const TinyColor = () => {
   const themeUrl = searchParams.get("theme");
   const paletteUrl = searchParams.get("colors");
 
-  const [generatedTheme, setGeneratedTheme] = useState(themeUrl || "analogous");
+  const setTheme = (theme) => {
+    dispatch({ type: "SET_THEME", payload: theme });
 
-  const randomColor = () => {
-    return tinycolor.random();
+    const colorParams = joinColors(state.palette);
+
+    const params = new URLSearchParams({
+      theme,
+      colors: colorParams,
+    });
+    const prevParams = searchParams;
+
+    if (params.get("theme") !== prevParams.get("theme")) {
+      history.push(`?${params.toString()}`);
+    }
   };
 
   const setPalette = (colors) => {
@@ -35,7 +50,7 @@ export const TinyColor = () => {
     const colorParams = joinColors(colors);
 
     const params = new URLSearchParams({
-      theme: generatedTheme,
+      theme: state.theme,
       colors: colorParams,
     });
     const prevParams = searchParams;
@@ -44,38 +59,40 @@ export const TinyColor = () => {
     }
   };
 
+  const randomColor = () => {
+    return tinycolor.random();
+  };
+
   const generatePalette = useCallback((paletteType) => {
     let color;
     switch (paletteType) {
       case "analogous": {
         color = randomColor().analogous();
-        setGeneratedTheme("analogous");
+        setTheme("analogous");
         break;
       }
       case "monochrome": {
         color = randomColor().monochromatic();
-        setGeneratedTheme("monochrome");
-
+        setTheme("monochrome");
         break;
       }
       case "split": {
         color = randomColor().splitcomplement();
-        setGeneratedTheme("split");
-
+        setTheme("split");
         break;
       }
       case "triad": {
         color = randomColor().triad();
-        setGeneratedTheme("triad");
-
+        setTheme("triad");
         break;
       }
       default: {
         color = randomColor();
-        setGeneratedTheme("random");
+        setTheme("random");
       }
     }
     return color.map((color) => color.toHexString());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handlePaletteChange = (event) => {
@@ -89,28 +106,27 @@ export const TinyColor = () => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    return setPalette(generatePalette(generatedTheme));
+    return setPalette(generatePalette(state.theme));
   };
-
-  // TODO: debug logic to only generate new palette if not in history or something
-
-  useEffect(() => {
-    //set local generated theme based on url
-    setGeneratedTheme(themeUrl);
-  }, [themeUrl]);
-
-  useEffect(() => {
-    // on theme change, generate and set new palette
-    setPalette(generatePalette(generatedTheme));
-  }, [generatedTheme]);
 
   useEffect(() => {
     // on paletteUrl change, set colors from url
+    hasSetColorsRef.current = false;
     if (paletteUrl) {
       const colors = splitColors(paletteUrl);
       setPalette(colors);
+      hasSetColorsRef.current = true;
     }
-  }, [paletteUrl, themeUrl]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paletteUrl]);
+
+  useEffect(() => {
+    // on theme change, generate and set new palette
+    if (!hasSetColorsRef.current || (prevTheme && state.theme !== prevTheme)) {
+      setPalette(generatePalette(themeUrl));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [themeUrl]);
 
   return (
     <>
@@ -123,7 +139,7 @@ export const TinyColor = () => {
           );
         })}
       <div className="col-span-3 md:col-span-6 flex items-center justify-center">
-        <button onClick={handleClick}>generate</button>
+        <button onClick={handleClick}>Generate</button>
       </div>
     </>
   );

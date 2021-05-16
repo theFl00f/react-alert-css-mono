@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useHistory } from "react-router";
 import { alertDao } from "../../../../context/persistentContext";
 import { Context } from "../../../../context/Store";
 import { AlertFrame } from "../../../components/AlertFrame";
@@ -9,15 +10,7 @@ import { ExportedCodeBlock } from "./ExportedCodeBlock";
 
 const AlertBox = () => {
   const [state] = useContext(Context);
-
-  const fetchAlerts = async () => {
-    try {
-      const alerts = await alertDao.getAlerts();
-      console.log(alerts);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const history = useHistory();
 
   const addAlert = async ({
     alertBorderColor,
@@ -28,6 +21,10 @@ const AlertBox = () => {
     buttonTextColor,
     message,
     buttonText,
+    alertWidth,
+    alertHeight,
+    alertBorderRadius,
+    alertBorderWidth,
   }) => {
     try {
       const newAlert = await alertDao.addAlert({
@@ -39,8 +36,12 @@ const AlertBox = () => {
         buttonTextColor,
         message,
         buttonText,
+        alertWidth,
+        alertHeight,
+        alertBorderRadius,
+        alertBorderWidth,
       });
-      console.log(newAlert);
+      if (newAlert) return true;
     } catch (e) {
       console.log(e);
     }
@@ -52,8 +53,11 @@ const AlertBox = () => {
     if (state.error) {
       throw state.error;
     }
-    addAlert(state);
-    fetchAlerts();
+    const response = addAlert(state);
+
+    if (response) {
+      history.push("/alerts");
+    }
   };
 
   return (
@@ -74,8 +78,13 @@ body {
 }
               
 .react-alert {
+  display: flex;
+  flex-direction: column;
+  width: ${state.alertWidth}rem;
+  height: ${state.alertHeight}rem;
   background-color: ${state.alertBackgroundColor};
-  border: 1px solid ${state.alertBorderColor};${
+  border: ${state.alertBorderWidth}rem solid ${state.alertBorderColor};
+  border-radius: ${state.alertBorderRadius}%;${
                 state.message &&
                 `
   color: ${state.textColor};`
@@ -83,6 +92,7 @@ body {
 }
 
 .react-alert button {
+  margin-top: auto;
   background-color: ${state.buttonBackgroundColor};
   border: 1px solid ${state.buttonBorderColor};
   color: ${state.buttonTextColor};

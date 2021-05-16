@@ -1,8 +1,10 @@
-import { createContext, useReducer } from "react";
+import React, { createContext, useReducer } from "react";
+import PropTypes from "prop-types";
 import Reducer from "./Reducer";
 
 const initialState = {
   palette: [],
+  theme: "analogous",
   alertBorderColor: "",
   alertBackgroundColor: "",
   buttonBorderColor: "",
@@ -27,3 +29,7 @@ const Store = ({ children }) => {
 
 export const Context = createContext(initialState);
 export default Store;
+
+Store.propTypes = {
+  children: PropTypes.element.isRequired,
+};

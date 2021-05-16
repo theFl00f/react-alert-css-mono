@@ -7,6 +7,11 @@ const Reducer = (state, action) => {
         palette: action.payload,
       };
 
+    case "SET_THEME":
+      return {
+        ...state,
+        theme: action.payload,
+      };
     // alert colors
     case "SET_ALERT_BORDER_COLOR":
       return {

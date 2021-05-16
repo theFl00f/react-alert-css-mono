@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../../../../context/Store";
 import { InlineEdit } from "../../InlineEdit";
 import { useColorDrop } from "../../ReactDnD/useColorDrop";
@@ -6,7 +6,7 @@ import { AlertButtonBorder } from "../AlertButton/AlertButtonBorder";
 
 export const AlertBackground = () => {
   const [state, dispatch] = useContext(Context);
-  const { isOver, color, drop } = useColorDrop(
+  const { _isOver, color, drop } = useColorDrop(
     state.alertBackgroundColor || "#4f4f4f"
   );
 

@@ -1,10 +1,11 @@
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../../../../context/Store";
 import { useColorDrop } from "../../ReactDnD/useColorDrop";
+import PropTypes from "prop-types";
 
 export const AlertButton = ({ children }) => {
   const [state, dispatch] = useContext(Context);
-  const { isOver, color, drop } = useColorDrop(
+  const { _isOver, color, drop } = useColorDrop(
     state.buttonBackgroundColor || "#1f1f1f"
   );
 
@@ -24,4 +25,8 @@ export const AlertButton = ({ children }) => {
       {children}
     </button>
   );
+};
+
+AlertButton.propTypes = {
+  children: PropTypes.element.isRequired,
 };
