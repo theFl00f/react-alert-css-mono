@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export const ColorInput = ({ label, ...args }) => {
   return (
@@ -7,4 +8,8 @@ export const ColorInput = ({ label, ...args }) => {
       <input type="color" {...args} />
     </label>
   );
+};
+
+ColorInput.propTypes = {
+  label: PropTypes.string.isRequired,
 };

@@ -19,6 +19,12 @@ const AlertSchema = new Schema(
       textColor: String,
       buttonTextColor: String,
     },
+    dimensions: {
+      alertWidth: Number,
+      alertHeight: Number,
+      alertBorderRadius: Number,
+      alertBorderWidth: Number,
+    },
   },
   { timestamps: { createdAt: "created_at" } }
 );
@@ -26,7 +32,7 @@ const AlertSchema = new Schema(
 const AlertModel = Mongoose.model("alert", AlertSchema);
 
 // **GET alerts listing.
-router.get("/api/alerts", async (req, res, next) => {
+router.get("/api/alerts", async (_req, res) => {
   try {
     var result = await AlertModel.find().exec();
     res.send(result);

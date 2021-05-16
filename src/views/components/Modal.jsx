@@ -1,5 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import ReactModal from "react-modal";
+import PropTypes from "prop-types";
 
 export const Modal = ({ children, openButtonText, handlePublish }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,4 +30,10 @@ export const Modal = ({ children, openButtonText, handlePublish }) => {
       </ReactModal>
     </>
   );
+};
+
+Modal.propTypes = {
+  children: PropTypes.element.isRequired,
+  openButtonText: PropTypes.string.isRequired,
+  handlePublish: PropTypes.func.isRequired,
 };

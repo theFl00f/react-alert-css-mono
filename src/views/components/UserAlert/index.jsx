@@ -1,4 +1,7 @@
-export const UserAlert = ({ user, alertName, textValues, css }) => {
+import React from "react";
+import PropTypes from "prop-types";
+
+export const UserAlert = ({ user, alertName, textValues, css, dimensions }) => {
   const { message, button } = textValues;
   const {
     alertBorderColor,
@@ -15,6 +18,15 @@ export const UserAlert = ({ user, alertName, textValues, css }) => {
     color: textColor,
   };
 
+  if (dimensions) {
+    const { alertHeight, alertWidth, alertBorderRadius, alertBorderWidth } =
+      dimensions;
+    styles.width = `${alertWidth}rem`;
+    styles.height = `${alertHeight}rem`;
+    styles.borderRadius = `${alertBorderRadius}%`;
+    styles.borderWidth = `${alertBorderWidth}rem`;
+  }
+
   const buttonStyles = {
     backgroundColor: buttonBackgroundColor,
     border: `10px solid ${buttonBorderColor}`,
@@ -25,10 +37,10 @@ export const UserAlert = ({ user, alertName, textValues, css }) => {
     <article className="inline-block">
       <h2>{alertName}</h2>
       <p>{user}</p>
-      <div className="flex flex-col items-center" style={styles}>
+      <div className="flex flex-col" style={styles}>
         <p>{message}</p>
         <button
-          className="cursor-default"
+          className="cursor-default mt-auto"
           disabled
           aria-disabled="true"
           style={buttonStyles}
@@ -38,4 +50,27 @@ export const UserAlert = ({ user, alertName, textValues, css }) => {
       </div>
     </article>
   );
+};
+
+UserAlert.propTypes = {
+  user: PropTypes.string.isRequired,
+  alertName: PropTypes.string.isRequired,
+  textValues: PropTypes.exact({
+    message: PropTypes.string.isRequired,
+    button: PropTypes.string.isRequired,
+  }),
+  css: PropTypes.exact({
+    alertBorderColor: PropTypes.string.isRequired,
+    alertBackgroundColor: PropTypes.string.isRequired,
+    buttonBorderColor: PropTypes.string.isRequired,
+    buttonBackgroundColor: PropTypes.string.isRequired,
+    textColor: PropTypes.string.isRequired,
+    buttonTextColor: PropTypes.string.isRequired,
+  }),
+  dimensions: PropTypes.exact({
+    alertHeight: PropTypes.number,
+    alertWidth: PropTypes.number,
+    alertBorderRadius: PropTypes.number,
+    alertBorderWidth: PropTypes.number,
+  }),
 };

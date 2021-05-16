@@ -2,6 +2,7 @@ import React from "react";
 import { Footer } from "../components/Footer";
 import { Nav } from "../components/Nav";
 import { Wrapper } from "../components/Wrapper";
+import PropTypes from "prop-types";
 
 export const GlobalLayout = ({ children }) => {
   return (
@@ -15,4 +16,8 @@ export const GlobalLayout = ({ children }) => {
       </Wrapper>
     </main>
   );
+};
+
+GlobalLayout.propTypes = {
+  children: PropTypes.element.isRequired,
 };

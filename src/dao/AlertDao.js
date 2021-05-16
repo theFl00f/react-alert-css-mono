@@ -10,6 +10,10 @@ export default class AlertDao {
     buttonTextColor,
     message,
     buttonText,
+    alertWidth,
+    alertHeight,
+    alertBorderRadius,
+    alertBorderWidth,
   }) {
     return axios.post("/api/alert", {
       user: "Anonymous",
@@ -25,6 +29,12 @@ export default class AlertDao {
         buttonBackgroundColor,
         textColor,
         buttonTextColor,
+      },
+      dimensions: {
+        alertWidth,
+        alertHeight,
+        alertBorderRadius,
+        alertBorderWidth,
       },
     });
   }
