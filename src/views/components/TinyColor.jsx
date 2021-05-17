@@ -53,9 +53,16 @@ export const TinyColor = () => {
       theme: state.theme,
       colors: colorParams,
     });
+
     const prevParams = searchParams;
+    const newUrl = `?${params.toString()}`;
+
+    if (!params.get("colors")) {
+      return history.replace(newUrl);
+    }
+
     if (params.get("colors") !== prevParams.get("colors")) {
-      history.push(`?${params.toString()}`);
+      return history.push(newUrl);
     }
   };
 
@@ -87,13 +94,15 @@ export const TinyColor = () => {
         break;
       }
       default: {
-        color = randomColor();
+        const tempColors = new Array(6);
+        color = tempColors.map(
+          (_item, index) => (tempColors[index] = randomColor())
+        );
         setTheme("random");
       }
     }
     return color.map((color) => color.toHexString());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
 
   const handlePaletteChange = (event) => {
     const newValue = event.target.value;
@@ -123,7 +132,7 @@ export const TinyColor = () => {
   useEffect(() => {
     // on theme change, generate and set new palette
     if (!hasSetColorsRef.current || (prevTheme && state.theme !== prevTheme)) {
-      setPalette(generatePalette(themeUrl));
+      setPalette(generatePalette(themeUrl || state.theme));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [themeUrl]);

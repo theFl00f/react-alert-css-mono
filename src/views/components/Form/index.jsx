@@ -11,5 +11,5 @@ export const Form = ({ className, children, ...args }) => {
 
 Form.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.node.isRequired,
 };
