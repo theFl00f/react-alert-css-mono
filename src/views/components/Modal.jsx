@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ReactModal from "react-modal";
 import PropTypes from "prop-types";
+import { Button } from "./Button";
 
 export const Modal = ({ children, openButtonText, handlePublish }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,10 +23,18 @@ export const Modal = ({ children, openButtonText, handlePublish }) => {
 
   return (
     <>
-      <button onClick={openModal}>{openButtonText}</button>
-      <ReactModal isOpen={isOpen}>
-        <button onClick={closeModal}>Close</button>
-        {handlePublish && <button onClick={handleClick}>Publish</button>}
+      <Button onClick={openModal}>{openButtonText}</Button>
+      <ReactModal
+        isOpen={isOpen}
+        onRequestClose={closeModal}
+        shouldCloseOnOverlayClick={true}
+        overlayClassName="fixed inset-0 bg-black bg-opacity-50"
+      >
+        {handlePublish && (
+          <div className="flex justify-end">
+            <Button onClick={handleClick}>Publish</Button>
+          </div>
+        )}
         {children}
       </ReactModal>
     </>

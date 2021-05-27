@@ -24,9 +24,10 @@ export const AlertBackground = () => {
         backgroundColor: state.alertBackgroundColor,
         width: `${state.alertWidth}rem`,
         height: `${state.alertHeight}rem`,
-        borderRadius: `${state.alertBorderRadius}%`,
+        borderRadius: `${state.alertBorderRadius - state.alertBorderWidth}rem`,
+        padding: `${state.alertYPadding}rem ${state.alertXPadding}rem`,
       }}
-      className="p-4 flex flex-col justify-between"
+      className="flex flex-col items-center justify-between"
       ref={drop}
     >
       <div style={{ color: state.textColor }}>

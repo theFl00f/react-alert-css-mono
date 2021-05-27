@@ -9,7 +9,6 @@ const CreateAlert = () => {
   const [state] = useContext(Context);
 
   const params = new URLSearchParams({
-    theme: state.theme,
     colors: joinColors(state.palette),
   });
 

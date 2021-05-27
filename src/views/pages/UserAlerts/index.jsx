@@ -16,9 +16,9 @@ const UserAlerts = () => {
   }, []);
 
   return (
-    <div className="bg-indigo-200 py-10">
+    <div className="bg-rac-purple py-10">
       <Wrapper>
-        <section className="flex flex-wrap gap-x-8 gap-y-2 justify-evenly">
+        <section className="flex flex-wrap gap-x-8 gap-y-6 justify-evenly">
           {alerts.map((alert) => (
             <UserAlert key={alert._id} {...alert} />
           ))}

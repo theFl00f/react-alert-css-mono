@@ -5,13 +5,13 @@ const routes = [
   {
     path: "/create/palette",
     component: Palette,
-    label: "Palette",
+    label: "Edit Palette",
     exact: true,
   },
   {
     path: "/create/edit-alert",
     component: AlertBox,
-    label: "Edit Alert",
+    label: "Customize Alert",
     exact: true,
   },
 ];

@@ -78,6 +78,37 @@ const Reducer = (state, action) => {
         ...state,
         alertBorderWidth: action.payload,
       };
+    case "SET_ALERT_Y_PADDING":
+      return {
+        ...state,
+        alertYPadding: action.payload,
+      };
+    case "SET_ALERT_X_PADDING":
+      return {
+        ...state,
+        alertXPadding: action.payload,
+      };
+
+    case "SET_BUTTON_Y_PADDING":
+      return {
+        ...state,
+        buttonYPadding: action.payload,
+      };
+    case "SET_BUTTON_X_PADDING":
+      return {
+        ...state,
+        buttonXPadding: action.payload,
+      };
+    case "SET_BUTTON_BORDER_RADIUS":
+      return {
+        ...state,
+        buttonBorderRadius: action.payload,
+      };
+    case "SET_BUTTON_BORDER_WIDTH":
+      return {
+        ...state,
+        buttonBorderWidth: action.payload,
+      };
     case "SET_ERROR":
       return {
         ...state,

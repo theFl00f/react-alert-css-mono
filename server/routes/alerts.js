@@ -24,6 +24,12 @@ const AlertSchema = new Schema(
       alertHeight: Number,
       alertBorderRadius: Number,
       alertBorderWidth: Number,
+      alertXPadding: Number,
+      alertYPadding: Number,
+      buttonXPadding: Number,
+      buttonYPadding: Number,
+      buttonBorderRadius: Number,
+      buttonBorderWidth: Number,
     },
   },
   { timestamps: { createdAt: "created_at" } }

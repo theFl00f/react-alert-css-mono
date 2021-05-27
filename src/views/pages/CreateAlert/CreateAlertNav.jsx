@@ -10,7 +10,14 @@ export const CreateAlertNav = () => {
       <ul className="flex">
         {routes.map(({ path, label }) => (
           <li key={label}>
-            <NavLink to={`${path}${location.search}`}>{label}</NavLink>
+            <NavLink
+              className="px-2 mr-2 block border-t-2 border-transparent"
+              activeClassName="bg-rac-purple rounded-t border-rac-yellow font-medium"
+              activeStyle={{ boxShadow: "0 .5rem #585bd1" }}
+              to={`${path}${location.search}`}
+            >
+              {label}
+            </NavLink>
           </li>
         ))}
       </ul>

@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 
 export const ExportedCodeBlock = ({ title, code }) => {
   return (
-    <article className="">
-      <h2>{title}</h2>
+    <article className="prose prose-sm flex flex-col">
+      <h2 className="mb-0">{title}</h2>
       <pre>
-        <code className="text-sm">{code}</code>
+        <code className="prose">{code}</code>
       </pre>
     </article>
   );

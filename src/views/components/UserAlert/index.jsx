@@ -12,32 +12,57 @@ export const UserAlert = ({ user, alertName, textValues, css, dimensions }) => {
     buttonTextColor,
   } = css;
 
+  const {
+    alertHeight,
+    alertWidth,
+    alertBorderRadius,
+    alertBorderWidth,
+    alertXPadding,
+    alertYPadding,
+    buttonYPadding,
+    buttonXPadding,
+    buttonBorderWidth,
+    buttonBorderRadius,
+  } = dimensions;
+
   const styles = {
     backgroundColor: alertBackgroundColor,
     border: `10px solid ${alertBorderColor}`,
     color: textColor,
+    padding:
+      alertXPadding == alertYPadding
+        ? `${alertYPadding}rem`
+        : `${alertYPadding}rem ${alertXPadding}rem`,
   };
-
-  if (dimensions) {
-    const { alertHeight, alertWidth, alertBorderRadius, alertBorderWidth } =
-      dimensions;
-    styles.width = `${alertWidth}rem`;
-    styles.height = `${alertHeight}rem`;
-    styles.borderRadius = `${alertBorderRadius}%`;
-    styles.borderWidth = `${alertBorderWidth}rem`;
-  }
 
   const buttonStyles = {
     backgroundColor: buttonBackgroundColor,
-    border: `10px solid ${buttonBorderColor}`,
+    border: `${buttonBorderWidth}rem solid ${buttonBorderColor}`,
+    borderRadius: `${buttonBorderRadius}rem`,
     color: buttonTextColor,
   };
 
+  styles.width = `${alertWidth}rem`;
+  styles.height = `${alertHeight}rem`;
+  styles.borderRadius = `${alertBorderRadius}rem`;
+  styles.borderWidth = `${alertBorderWidth}rem`;
+
+  if (buttonXPadding == 15) {
+    buttonStyles.padding = `${buttonYPadding}rem 0`;
+    buttonStyles.width = "100%";
+  } else {
+    buttonStyles.padding = `${buttonYPadding}rem ${buttonXPadding}rem`;
+  }
+
   return (
     <article className="inline-block">
-      <h2>{alertName}</h2>
-      <p>{user}</p>
-      <div className="flex flex-col" style={styles}>
+      <h2 className="prose prose-xl leading-snug text-rac-light-peach">
+        {alertName}
+      </h2>
+      <p className="prose leading-tight text-white">
+        Created by <span className="italic font-mono">{user}</span>
+      </p>
+      <div className="flex flex-col items-center mt-1" style={styles}>
         <p>{message}</p>
         <button
           className="cursor-default mt-auto"
@@ -68,9 +93,15 @@ UserAlert.propTypes = {
     buttonTextColor: PropTypes.string.isRequired,
   }),
   dimensions: PropTypes.exact({
-    alertHeight: PropTypes.number,
-    alertWidth: PropTypes.number,
-    alertBorderRadius: PropTypes.number,
-    alertBorderWidth: PropTypes.number,
+    alertHeight: PropTypes.number.isRequired,
+    alertWidth: PropTypes.number.isRequired,
+    alertBorderRadius: PropTypes.number.isRequired,
+    alertBorderWidth: PropTypes.number.isRequired,
+    alertXPadding: PropTypes.number.isRequired,
+    alertYPadding: PropTypes.number.isRequired,
+    buttonXPadding: PropTypes.number.isRequired,
+    buttonYPadding: PropTypes.number.isRequired,
+    buttonBorderRadius: PropTypes.number.isRequired,
+    buttonBorderWidth: PropTypes.number.isRequired,
   }),
 };

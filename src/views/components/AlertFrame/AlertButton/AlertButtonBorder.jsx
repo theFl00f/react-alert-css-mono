@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AlertButton } from ".";
 import { Context } from "../../../../context/Store";
 import { InlineEdit } from "../../InlineEdit";
@@ -6,6 +6,25 @@ import { useColorDrop } from "../../ReactDnD/useColorDrop";
 
 export const AlertButtonBorder = () => {
   const [state, dispatch] = useContext(Context);
+  const getComputedStyles = (xPadding) => {
+    const styles = {
+      backgroundColor: state.buttonBorderColor,
+      padding: `${state.buttonBorderWidth}rem`,
+      borderRadius: `${state.buttonBorderRadius}rem`,
+    };
+    if (xPadding == 15) {
+      return {
+        ...styles,
+        width: "100%",
+      };
+    }
+    return {
+      ...styles,
+    };
+  };
+  const [computedStyles, setComputedStyles] = useState(
+    getComputedStyles(state.buttonXPadding)
+  );
   const { _isOver, color, drop } = useColorDrop(
     state.buttonBorderColor || "#000000"
   );
@@ -18,12 +37,19 @@ export const AlertButtonBorder = () => {
     dispatch({ type: "SET_BUTTON_BORDER_COLOR", payload: color });
   }, [color, dispatch]);
 
+  useEffect(() => {
+    setComputedStyles(getComputedStyles(state.buttonXPadding));
+  }, [
+    state.buttonXPadding,
+    state.buttonBorderColor,
+    state.buttonBorderWidth,
+    state.buttonBorderRadius,
+  ]);
+
+  useEffect;
+
   return (
-    <div
-      style={{ backgroundColor: state.buttonBorderColor }}
-      className="p-2"
-      ref={drop}
-    >
+    <div className="max-w-full" style={computedStyles} ref={drop}>
       <AlertButton>
         <InlineEdit text={state.buttonText} saveText={saveText} />
       </AlertButton>

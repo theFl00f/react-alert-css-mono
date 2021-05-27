@@ -12,6 +12,7 @@ import { ColorInput } from "./Form/ColorInput";
 import { joinColors, splitColors } from "../../util/colorUtil";
 import { Context } from "../../context/Store";
 import { usePrevious } from "../../util/usePrevious";
+import { Button } from "./Button";
 
 export const TinyColor = () => {
   const history = useHistory();
@@ -25,23 +26,10 @@ export const TinyColor = () => {
     [history.location.search]
   );
 
-  const themeUrl = searchParams.get("theme");
   const paletteUrl = searchParams.get("colors");
 
   const setTheme = (theme) => {
     dispatch({ type: "SET_THEME", payload: theme });
-
-    const colorParams = joinColors(state.palette);
-
-    const params = new URLSearchParams({
-      theme,
-      colors: colorParams,
-    });
-    const prevParams = searchParams;
-
-    if (params.get("theme") !== prevParams.get("theme")) {
-      history.push(`?${params.toString()}`);
-    }
   };
 
   const setPalette = (colors) => {
@@ -50,7 +38,6 @@ export const TinyColor = () => {
     const colorParams = joinColors(colors);
 
     const params = new URLSearchParams({
-      theme: state.theme,
       colors: colorParams,
     });
 
@@ -95,9 +82,10 @@ export const TinyColor = () => {
       }
       default: {
         const tempColors = new Array(6);
-        color = tempColors.map(
-          (_item, index) => (tempColors[index] = randomColor())
-        );
+        for (let i = 0; i < tempColors.length; i++) {
+          tempColors[i] = randomColor();
+        }
+        color = tempColors;
         setTheme("random");
       }
     }
@@ -132,10 +120,10 @@ export const TinyColor = () => {
   useEffect(() => {
     // on theme change, generate and set new palette
     if (!hasSetColorsRef.current || (prevTheme && state.theme !== prevTheme)) {
-      setPalette(generatePalette(themeUrl || state.theme));
+      setPalette(generatePalette(state.theme));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [themeUrl]);
+  }, [state.theme]);
 
   return (
     <>
@@ -143,12 +131,16 @@ export const TinyColor = () => {
         state.palette.map((color, index) => {
           return (
             <Fragment key={index}>
-              <ColorInput value={color} onChange={handlePaletteChange} />
+              <ColorInput
+                value={color}
+                label={color}
+                onChange={handlePaletteChange}
+              />
             </Fragment>
           );
         })}
       <div className="col-span-3 md:col-span-6 flex items-center justify-center">
-        <button onClick={handleClick}>Generate</button>
+        <Button onClick={handleClick}>Generate</Button>
       </div>
     </>
   );

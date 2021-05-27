@@ -16,7 +16,13 @@ const initialState = {
   alertWidth: 24,
   alertHeight: 14,
   alertBorderRadius: 0,
-  alertBorderWidth: 0,
+  alertBorderWidth: 0.5,
+  alertXPadding: 1,
+  alertYPadding: 1,
+  buttonXPadding: 4,
+  buttonYPadding: 0.4,
+  buttonBorderRadius: 0,
+  buttonBorderWidth: 0.5,
   error: null,
 };
 

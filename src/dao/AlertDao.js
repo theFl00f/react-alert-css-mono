@@ -14,6 +14,12 @@ export default class AlertDao {
     alertHeight,
     alertBorderRadius,
     alertBorderWidth,
+    alertXPadding,
+    alertYPadding,
+    buttonXPadding,
+    buttonYPadding,
+    buttonBorderRadius,
+    buttonBorderWidth,
   }) {
     return axios.post("/api/alert", {
       user: "Anonymous",
@@ -35,6 +41,12 @@ export default class AlertDao {
         alertHeight,
         alertBorderRadius,
         alertBorderWidth,
+        alertXPadding,
+        alertYPadding,
+        buttonXPadding,
+        buttonYPadding,
+        buttonBorderRadius,
+        buttonBorderWidth,
       },
     });
   }
