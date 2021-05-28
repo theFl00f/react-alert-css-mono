@@ -10,8 +10,8 @@ export const GlobalLayout = ({ children }) => {
     <div className="min-h-screen bg-rac-dark-purple flex flex-col text-white">
       <Wrapper>
         <header className="flex justify-between items-baseline py-2">
-          <Link to="/">
-            <h1 className="prose prose-2xl text-white font-semibold">
+          <Link className="group" to="/">
+            <h1 className="text-white group-hover:text-rac-yellow prose prose-2xl font-semibold transition-colors rac-transition">
               react-alert-css
             </h1>
           </Link>

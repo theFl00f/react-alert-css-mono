@@ -72,12 +72,13 @@ const AlertBox = () => {
   return (
     <>
       <AlertFrame />
-      <div className="flex justify-between items-baseline">
+      <div className="flex justify-between items-end">
         <SelectedPalette />
         <Modal handlePublish={handlePublish} openButtonText="Export to code">
           <div className="grid grid-cols-2 gap-4">
             <ExportedCodeBlock
               title="CSS"
+              highlightingClass="language-css"
               code={`html {
   font-size: 62.5%;
 }
@@ -123,6 +124,7 @@ body {
             />
             <ExportedCodeBlock
               title="HTML"
+              highlightingClass="language-html"
               code={`<div className="react-alert">${
                 state.message &&
                 `

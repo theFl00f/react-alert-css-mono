@@ -47,7 +47,12 @@ export const AlertButton = ({ children }) => {
   ]);
 
   return (
-    <button className="max-w-full" style={computedStyles} ref={drop}>
+    <button
+      className="max-w-full cursor-default"
+      disabled
+      style={computedStyles}
+      ref={drop}
+    >
       {children}
     </button>
   );

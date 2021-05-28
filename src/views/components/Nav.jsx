@@ -10,7 +10,7 @@ export const Nav = () => {
           <li key={label}>
             <NavLink
               activeClassName="border-t-2 border-rac-yellow bg-rac-purple font-medium"
-              className="prose prose-lg px-4 py-1 rounded hover:text-rac-light-peach focus:text-rac-light-peach focus:outline-white text-white"
+              className="prose prose-lg px-4 py-1 rounded hover:text-rac-yellow focus:text-rac-light-peach focus:outline-white text-white"
               to={path}
             >
               {label}

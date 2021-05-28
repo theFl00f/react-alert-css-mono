@@ -14,6 +14,16 @@ module.exports = {
         "rac-yellow": "#fdde96",
         black: "#474141",
       },
+      typography: (theme) => ({
+        "rac-green": {
+          css: [
+            {
+              a: { color: theme("colors.rac-green") },
+              "a code": { color: theme("colors.rac-green") },
+            },
+          ],
+        },
+      }),
     },
   },
   variants: {

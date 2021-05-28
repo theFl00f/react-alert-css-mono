@@ -5,6 +5,9 @@
   "proxy": "http://localhost:3000",
   "dependencies": {
     "@craco/craco": "6.1.1",
+    "@fortawesome/fontawesome-svg-core": "1.2.35",
+    "@fortawesome/free-solid-svg-icons": "5.15.3",
+    "@fortawesome/react-fontawesome": "0.1.14",
     "@tailwindcss/typography": "0.4.0",
     "axios": "0.21.1",
     "concurrently": "6.1.0",
@@ -14,6 +17,7 @@
     "mongoose": "5.12.3",
     "morgan": "1.10.0",
     "nodemon": "2.0.7",
+    "prismjs": "1.23.0",
     "pug": "3.0.2",
     "react": "^17.0.2",
     "react-dnd": "14.0.2",

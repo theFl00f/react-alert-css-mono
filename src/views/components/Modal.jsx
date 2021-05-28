@@ -23,7 +23,9 @@ export const Modal = ({ children, openButtonText, handlePublish }) => {
 
   return (
     <>
-      <Button onClick={openModal}>{openButtonText}</Button>
+      <div className="mb-2">
+        <Button onClick={openModal}>{openButtonText}</Button>
+      </div>
       <ReactModal
         isOpen={isOpen}
         onRequestClose={closeModal}
