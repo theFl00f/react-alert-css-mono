@@ -33,6 +33,7 @@
   "scripts": {
     "lint": "eslint src/**",
     "dev": "concurrently \"PORT=8080 craco start\" \"nodemon server/server.js\"",
+    "start": "concurrently \"PORT=8080 craco start\" \"nodemon server/server.js\"",
     "build": "craco build",
     "eject": "craco eject"
   },
